@@ -588,4 +588,8 @@ body {
 .step-dot.lemon  { background: var(--lemon-col); }
 .step-dot.empty  { background: rgba(255,255,255,0.15); }
 
+/* ─── MINI-GAME OVERLAY TRANSITIONS ─────────────────────────────────────────── */
+@keyframes mgFadeIn  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes mgFadeOut { from { opacity: 1; } to { opacity: 0; } }
+
 /* Responsive media query removed — layout is handled by JS canvas scaling */

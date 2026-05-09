@@ -234,6 +234,14 @@ function showWin() {
   el('overlay-title').textContent = 'Hooray!';
   el('overlay-sub').textContent   = `Timmy can make lemonade again! 🍋\nPiggy Bank: $${piggyMoney}`;
   el('overlay').classList.remove('hidden');
+
+  // ── INTEGRATION: when running inside the main game iframe,
+  //    swap "Play Again?" for a "Continue" button that signals the parent.
+  if (window.parent !== window) {
+    el('overlay-btn').textContent = 'Continue to Stand →';
+    el('overlay-btn').onclick = () =>
+      window.parent.postMessage({ type: 'minigame-complete' }, '*');
+  }
 }
 
 function showGameOver() {
@@ -241,6 +249,13 @@ function showGameOver() {
   el('overlay-title').textContent = 'NOOO!';
   el('overlay-sub').textContent   = `We lost the lemons!\nPiggy Bank: $${piggyMoney}`;
   el('overlay').classList.remove('hidden');
+
+  // ── INTEGRATION: same exit path on loss — player still continues to scene 3.
+  if (window.parent !== window) {
+    el('overlay-btn').textContent = 'Continue to Stand →';
+    el('overlay-btn').onclick = () =>
+      window.parent.postMessage({ type: 'minigame-complete' }, '*');
+  }
 }
 
 // ─── RESTART ──────────────────────────────────────────────────────────────────

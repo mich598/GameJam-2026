@@ -52,6 +52,17 @@ function pauseGame() {
   if (btn)     btn.textContent = '▶';
 }
 
+// ── Silent pause — freezes the timer without showing the pause UI.
+//    Used when a mini-game overlay takes over the screen so the pause
+//    card doesn't flash underneath the iframe.
+function silentPauseTimer() {
+  if (localStorage.getItem('gamePaused')) return;
+  localStorage.setItem('gamePaused',     'true');
+  localStorage.setItem('pauseStartTime', Date.now().toString());
+  // deliberately does NOT touch #pause-overlay or #pause-btn
+}
+window.silentPauseTimer = silentPauseTimer;
+
 function resumeGame() {
   const pauseStart = parseInt(localStorage.getItem('pauseStartTime') || Date.now());
   const pausedMs   = Date.now() - pauseStart;

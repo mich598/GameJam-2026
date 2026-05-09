@@ -11,6 +11,14 @@ const MAX_EACH    = 4;      // max units of each ingredient
 const CUP_INNER_H = 196;    // usable SVG height inside cup (px)
 const CUP_BOTTOM  = 214;    // SVG y for cup base
 
+// ─── MINI-GAME CONFIG ─────────────────────────────────────────────────────────
+// Add or remove entries here to change which day triggers which mini-game.
+const MINIGAME_DAYS = {
+  1: 'mini_game_1/index.html',   // after day 1 scene 2 → memory match
+  2: 'mini_game_2/math-test.html' // after day 2 scene 2 → police maths
+};
+let mgMessageHandler = null; // reference kept so we can cleanly remove it
+
 // ─── STATE ───────────────────────────────────────────────────────────────────
 let current    = { water: 0, ice: 0, sugar: 0, lemon: 0 };
 let target     = { water: 0, ice: 0, sugar: 0, lemon: 0 };
@@ -153,7 +161,14 @@ function sendOrder() {
     // Hide both buttons — we're navigating away, don't allow Next Order
     els.serveBtn.style.display = 'none';
     els.nextBtn.style.display  = 'none';
-    setTimeout(() => { window.location.href = 'scene_3.html'; }, 1800);
+    setTimeout(() => {
+      const day = parseInt(localStorage.getItem('dayNumber') || '1');
+      if (MINIGAME_DAYS[day]) {
+        launchMiniGame(MINIGAME_DAYS[day]);   // show iframe, pause timer
+      } else {
+        window.location.href = 'scene_3.html'; // normal flow day 3+
+      }
+    }, 1800);
   } else {
     els.feedback.textContent = '❌ Wrong Recipe!';
     els.feedback.className   = 'bad';
@@ -167,6 +182,64 @@ function sendOrder() {
   }
 }
 window.sendOrder = sendOrder;
+
+// ─── MINI-GAME LAUNCHER ───────────────────────────────────────────────────────
+
+function launchMiniGame(url) {
+  // 1. Freeze the happiness timer without showing the pause card
+  silentPauseTimer();
+
+  // 2. Hide the pause button — player shouldn't pause while MG is running
+  const pauseBtn = document.getElementById('pause-btn');
+  if (pauseBtn) pauseBtn.hidden = true;
+
+  // 3. Fullscreen overlay that sits above everything
+  const overlay = document.createElement('div');
+  overlay.id = 'mg-overlay';
+  overlay.style.cssText =
+    'position:fixed;inset:0;z-index:9999;background:#000;' +
+    'animation:mgFadeIn 0.4s ease;';
+
+  // 4. iframe — completely isolated CSS + JS scope
+  const iframe = document.createElement('iframe');
+  iframe.src             = url;
+  iframe.style.cssText   = 'width:100%;height:100%;border:none;display:block;';
+
+  overlay.appendChild(iframe);
+  document.body.appendChild(overlay);
+
+  // 5. Listen for the mini-game telling us it's done
+  mgMessageHandler = (event) => {
+    if (event.data && event.data.type === 'minigame-complete') {
+      onMiniGameComplete(overlay);
+    }
+  };
+  window.addEventListener('message', mgMessageHandler);
+}
+window.launchMiniGame = launchMiniGame;
+
+function onMiniGameComplete(overlay) {
+  // 1. Remove listener immediately — prevents any double-firing
+  window.removeEventListener('message', mgMessageHandler);
+  mgMessageHandler = null;
+
+  // 2. Fade the overlay out, then tear it down and move on
+  overlay.style.animation = 'mgFadeOut 0.35s ease forwards';
+  overlay.addEventListener('animationend', () => {
+    overlay.remove();
+
+    // 3. Restore the pause button
+    const pauseBtn = document.getElementById('pause-btn');
+    if (pauseBtn) pauseBtn.hidden = false;
+
+    // 4. Resume the happiness timer (resumeGame is from timer.js)
+    resumeGame();
+
+    // 5. Head to scene 3
+    window.location.href = 'scene_3.html';
+  }, { once: true });
+}
+window.onMiniGameComplete = onMiniGameComplete;
 
 // ─── TICKET ──────────────────────────────────────────────────────────────────
 function updateTicket() {
