@@ -1,0 +1,403 @@
+/* ═══════════════════════════════════════════════
+   TIMMY'S LEMON MEMORY — style.css
+   Warm illustrated cozy-game UI
+   Fonts: Fredoka One (display) + Nunito (body)
+═══════════════════════════════════════════════ */
+
+:root {
+  --yellow:       #f5c518;
+  --yellow-light: #fff9c4;
+  --yellow-deep:  #e6a800;
+  --amber:        #c8860a;
+  --brown:        #5c3310;
+  --brown-light:  #8b5e3c;
+  --cream:        #fffde7;
+  --green-ok:     #66bb6a;
+  --red-bad:      #ef5350;
+  --card-back:    #c8860a;
+  --card-border:  rgba(255,255,255,0.35);
+  --shadow-dark:  rgba(0,0,0,0.55);
+  --shadow-soft:  rgba(0,0,0,0.25);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  font-family: 'Nunito', sans-serif;
+  background: #1a0d00;
+}
+
+/* ─── BACKGROUND ─────────────────────────────── */
+#bg {
+  position: fixed; inset: 0; z-index: 0;
+  background: url('background_2.png') center/cover no-repeat;
+}
+#bg-overlay {
+  position: fixed; inset: 0; z-index: 1;
+  background: linear-gradient(
+    160deg,
+    rgba(15,5,0,0.52) 0%,
+    rgba(30,12,0,0.38) 50%,
+    rgba(10,4,0,0.55) 100%
+  );
+  backdrop-filter: blur(0.5px);
+}
+
+/* ─── FLOATING DECO ──────────────────────────── */
+#deco-container {
+  position: fixed; inset: 0; z-index: 2;
+  pointer-events: none;
+}
+.float-lemon {
+  position: absolute;
+  opacity: 0.15;
+  animation: floatUp linear infinite;
+  user-select: none;
+}
+@keyframes floatUp {
+  from { transform: translateY(110vh) rotate(0deg); opacity: 0.10; }
+  to   { transform: translateY(-15vh) rotate(360deg); opacity: 0; }
+}
+
+/* ─── PIGGY BANK (top-left) ──────────────────── */
+#piggy-panel {
+  position: fixed;
+  top: 18px; left: 18px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(20,8,0,0.60);
+  backdrop-filter: blur(12px);
+  border: 2px solid rgba(245,197,24,0.40);
+  border-radius: 20px;
+  padding: 10px 16px 10px 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.07);
+}
+#piggy-icon {
+  font-size: 2.2rem;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
+  transition: transform 0.3s cubic-bezier(.36,2,.5,1);
+}
+#piggy-icon.bounce {
+  animation: piggyBounce 0.5s cubic-bezier(.36,2,.5,1);
+}
+@keyframes piggyBounce {
+  0%   { transform: scale(1) rotate(0deg); }
+  30%  { transform: scale(1.4) rotate(-10deg); }
+  60%  { transform: scale(0.9) rotate(5deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+#piggy-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+#piggy-label {
+  font-family: 'Fredoka One', cursive;
+  font-size: 0.7rem;
+  color: rgba(255,255,255,0.65);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+#piggy-amount {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.5rem;
+  color: var(--yellow);
+  text-shadow: 0 0 12px rgba(245,197,24,0.5);
+  line-height: 1;
+  transition: all 0.3s ease;
+}
+
+/* ─── LIVES (top-right) ──────────────────────── */
+#lives-panel {
+  position: fixed;
+  top: 18px; right: 18px;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  background: rgba(20,8,0,0.60);
+  backdrop-filter: blur(12px);
+  border: 2px solid rgba(245,197,24,0.40);
+  border-radius: 20px;
+  padding: 10px 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+#lives-label {
+  font-family: 'Fredoka One', cursive;
+  font-size: 0.7rem;
+  color: rgba(255,255,255,0.65);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+#lives-hearts {
+  display: flex;
+  gap: 4px;
+}
+.heart {
+  font-size: 1.5rem;
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
+}
+.heart.lost {
+  filter: grayscale(1) opacity(0.35);
+  transform: scale(0.8);
+}
+
+/* ─── MAIN ───────────────────────────────────── */
+#main {
+  position: relative;
+  z-index: 10;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(10px, 2vh, 20px);
+  padding: 80px 20px 20px;
+}
+
+/* ─── STORY BANNER ───────────────────────────── */
+#story-banner {
+  background: rgba(20,8,0,0.65);
+  backdrop-filter: blur(12px);
+  border: 2px solid rgba(245,197,24,0.35);
+  border-radius: 20px;
+  padding: clamp(8px, 1.5vh, 14px) clamp(16px, 3vw, 28px);
+  max-width: min(680px, 90vw);
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+#story-text {
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(0.85rem, 2vw, 1.1rem);
+  color: var(--yellow-light);
+  letter-spacing: 0.3px;
+  line-height: 1.4;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.6);
+}
+
+/* ─── BOARD ──────────────────────────────────── */
+#board-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(8px, 1.5vw, 16px);
+  padding: clamp(14px, 2vh, 24px);
+  background: rgba(15,5,0,0.50);
+  backdrop-filter: blur(14px);
+  border: 2px solid rgba(255,255,255,0.18);
+  border-radius: 24px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.07);
+}
+
+/* ─── CARD ───────────────────────────────────── */
+.card {
+  width:  clamp(85px, 12vw, 130px);
+  height: clamp(95px, 13vw, 145px);
+  perspective: 800px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.card-inner {
+  width: 100%; height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 16px;
+}
+.card.flipped .card-inner  { transform: rotateY(180deg); }
+.card.matched .card-inner  { transform: rotateY(180deg); }
+
+.card-front,
+.card-back {
+  position: absolute; inset: 0;
+  border-radius: 16px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* ── Card Back (face-down) ── */
+.card-back {
+  background: linear-gradient(135deg, #b8620a 0%, #7a3d05 60%, #5c2c04 100%);
+  border: 2.5px solid rgba(255,200,80,0.45);
+  box-shadow: 0 5px 18px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.18);
+}
+.card-back::before {
+  content: '🍋';
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  filter: opacity(0.22) sepia(1) saturate(2);
+}
+.card-back::after {
+  content: '';
+  position: absolute; inset: 6px;
+  border: 1.5px dashed rgba(255,200,80,0.3);
+  border-radius: 10px;
+  pointer-events: none;
+}
+
+/* ── Card Front (face-up) ── */
+.card-front {
+  transform: rotateY(180deg);
+  background: linear-gradient(155deg, #fffde7 60%, #fff9c4 100%);
+  border: 2.5px solid #d4a017;
+  box-shadow: 0 5px 18px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.9);
+  flex-direction: column;
+  gap: 4px;
+}
+.card-front .card-emoji {
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.3));
+  line-height: 1;
+}
+.card-front .card-label {
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(0.6rem, 1.1vw, 0.78rem);
+  color: var(--brown);
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+
+/* ── Matched glow ── */
+.card.matched .card-front {
+  background: linear-gradient(155deg, #f0fff4 60%, #c8f5d0 100%);
+  border-color: #43a047;
+  box-shadow: 0 0 0 3px rgba(76,175,80,0.3), 0 5px 20px rgba(0,0,0,0.4);
+}
+.card.matched.special .card-front {
+  background: linear-gradient(155deg, #fffde7 60%, #fff59d 100%);
+  border-color: #f9a825;
+  box-shadow: 0 0 0 3px rgba(249,168,37,0.35), 0 5px 20px rgba(0,0,0,0.4);
+}
+
+/* ── Hover & click ── */
+.card:not(.flipped):not(.matched):not(.disabled):hover .card-inner {
+  transform: translateY(-4px) rotateY(0deg);
+  filter: brightness(1.12);
+}
+.card:not(.flipped):not(.matched):not(.disabled):active .card-inner {
+  transform: scale(0.94) rotateY(0deg);
+}
+.card.disabled { cursor: default; pointer-events: none; }
+
+/* ─── SHAKE ANIMATION ────────────────────────── */
+@keyframes boardShake {
+  0%,100% { transform: translateX(0); }
+  15%     { transform: translateX(-10px) rotate(-1.5deg); }
+  30%     { transform: translateX(10px)  rotate(1.5deg); }
+  45%     { transform: translateX(-7px)  rotate(-0.8deg); }
+  60%     { transform: translateX(7px)   rotate(0.8deg); }
+  80%     { transform: translateX(-3px); }
+}
+#board-wrap.shake {
+  animation: boardShake 0.55s ease;
+}
+
+/* ─── COIN POP ────────────────────────────────── */
+.coin-pop {
+  position: fixed;
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.4rem;
+  color: var(--yellow);
+  text-shadow: 0 2px 8px rgba(0,0,0,0.7);
+  pointer-events: none;
+  z-index: 50;
+  animation: coinRise 1s ease forwards;
+}
+@keyframes coinRise {
+  0%   { transform: translateY(0) scale(1); opacity: 1; }
+  70%  { transform: translateY(-60px) scale(1.2); opacity: 1; }
+  100% { transform: translateY(-90px) scale(0.8); opacity: 0; }
+}
+
+/* ─── MATCH BURST ─────────────────────────────── */
+.match-burst {
+  position: fixed;
+  font-size: 1.8rem;
+  pointer-events: none;
+  z-index: 50;
+  animation: burstAway 0.7s ease forwards;
+}
+@keyframes burstAway {
+  0%   { transform: translate(-50%,-50%) scale(0.5); opacity: 1; }
+  60%  { opacity: 1; }
+  100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
+}
+
+/* ─── OVERLAY ─────────────────────────────────── */
+#overlay {
+  position: fixed; inset: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(10,4,0,0.72);
+  backdrop-filter: blur(6px);
+  opacity: 1;
+  transition: opacity 0.4s ease;
+}
+#overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#overlay-box {
+  background: linear-gradient(160deg, #fffde7 0%, #fff9c4 100%);
+  border: 3px solid #d4a017;
+  border-radius: 28px;
+  padding: 40px 48px;
+  text-align: center;
+  box-shadow: 0 16px 60px rgba(0,0,0,0.6), inset 0 2px 0 rgba(255,255,255,0.9);
+  max-width: 380px;
+  width: 90vw;
+  animation: overlayPop 0.5s cubic-bezier(.36,2,.5,1);
+}
+@keyframes overlayPop {
+  from { transform: scale(0.6); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+
+#overlay-emoji {
+  font-size: 4rem;
+  margin-bottom: 10px;
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.3));
+}
+#overlay-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: 2rem;
+  color: var(--brown);
+  margin-bottom: 8px;
+}
+#overlay-sub {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1rem;
+  color: var(--brown-light);
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+#overlay-btn {
+  background: linear-gradient(135deg, #fdd835, #fb8c00);
+  color: var(--brown);
+  border: none;
+  border-radius: 50px;
+  padding: 13px 36px;
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.25rem;
+  cursor: pointer;
+  box-shadow: 0 5px 18px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.4);
+  transition: transform 0.13s, box-shadow 0.13s;
+}
+#overlay-btn:hover { transform: translateY(-3px); box-shadow: 0 9px 24px rgba(0,0,0,0.35); }
+#overlay-btn:active { transform: scale(0.95); }
