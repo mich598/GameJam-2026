@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>End of Day</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="day_end.css">
+</head>
+<body>
+
+  <!-- Two layers for smooth cross-fade between backgrounds -->
+  <div id="bg-a" class="bg-layer"></div>
+  <div id="bg-b" class="bg-layer"></div>
+
+  <div id="day-card">
+    <p id="day-complete-label">Day <span id="day-num">1</span> Complete!</p>
+  </div>
+
+  <script>
+    // Background sequence: day → dusk → night → morning
+    const BACKGROUNDS = [
+      'assets/background_image_scene_1.png',
+      'assets/background_dusk.png',
+      'assets/background_night.png',
+      'assets/background_morning.png',
+    ];
+
+    const SHOW_MS  = 1500;  // how long each background is held
+    const FADE_MS  = 1000;  // cross-fade duration (must match CSS transition)
+
+    // Show which day just ended
+    const completedDay = parseInt(localStorage.getItem('completedDay') || '1');
+    document.getElementById('day-num').textContent = completedDay;
+
+    // Init first background
+    const bgA = document.getElementById('bg-a');
+    const bgB = document.getElementById('bg-b');
+    bgA.style.backgroundImage = `url('${BACKGROUNDS[0]}')`;
+    bgA.style.opacity = '1';
+    bgB.style.opacity = '0';
+
+    let index   = 0;
+    let showingA = true;
+
+    function nextBackground() {
+      index++;
+
+      if (index >= BACKGROUNDS.length) {
+        // All frames shown — go to bank if game is complete, otherwise next day
+        if (localStorage.getItem('gameComplete')) {
+          localStorage.removeItem('gameComplete');
+          setTimeout(() => { window.location.href = 'bank.html'; }, SHOW_MS);
+        } else {
+          sessionStorage.setItem('gameStarted', 'true');
+          setTimeout(() => { window.location.href = 'index.html'; }, SHOW_MS);
+        }
+        return;
+      }
+
+      const incoming = showingA ? bgB : bgA;
+      const outgoing = showingA ? bgA : bgB;
+
+      incoming.style.backgroundImage = `url('${BACKGROUNDS[index]}')`;
+      incoming.style.opacity = '1';
+      outgoing.style.opacity = '0';
+      showingA = !showingA;
+
+      setTimeout(nextBackground, SHOW_MS + FADE_MS);
+    }
+
+    setTimeout(nextBackground, SHOW_MS + FADE_MS);
+  </script>
+
+  <script src="audio.js"></script>
+</body>
+</html>

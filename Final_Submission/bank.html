@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lemonade Stand — Bank</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Caveat:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="bank.css">
+</head>
+<body>
+
+  <!-- Background outside canvas — renders native, no blur -->
+  <img id="bg" src="assets/background_bank.png" alt="">
+
+  <!-- Canvas for the card — zoom-immune via JS scaling -->
+  <div id="bank-canvas">
+    <div id="savings-card">
+
+      <h1 id="bank-title">🏦 My Savings</h1>
+
+      <!-- Coin jar -->
+      <div id="jar-wrap">
+        <div id="coin-zone"></div><!-- coins fall into here -->
+        <div id="jar-lid"></div>
+        <div id="jar-body">
+          <div id="jar-fill">
+            <div id="jar-wave"></div>
+          </div>
+          <div id="jar-shine"></div>
+        </div>
+        <p id="jar-amount">$0.00</p>
+      </div>
+
+      <!-- Progress bar -->
+      <div id="progress-section">
+        <div id="progress-track">
+          <div id="progress-fill"></div>
+        </div>
+        <p id="progress-label">$0.00 / $13.00</p>
+      </div>
+
+      <!-- Goal -->
+      <div id="goal-row">
+        <div id="goal-item">
+          <span id="goal-icon">🚲</span>
+          <span id="goal-name">Bike</span>
+          <span id="goal-price">$13.00</span>
+        </div>
+      </div>
+
+      <p id="status-msg"></p>
+
+    </div>
+  </div>
+
+  <script src="bank.js"></script>
+  <script src="audio.js"></script>
+</body>
+</html>

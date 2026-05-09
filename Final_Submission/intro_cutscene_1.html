@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lemonade Stand — Intro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="intro_cutscene_1.css">
+</head>
+<body>
+
+  <!-- Two layers for smooth cross-fade between backgrounds -->
+  <div id="bg-a" class="bg-layer"></div>
+  <div id="bg-b" class="bg-layer"></div>
+
+  <script>
+    const BACKGROUNDS = [
+      'assets/Intro_1.png',
+      'assets/Intro_2.png',
+      'assets/Intro_3.png',
+      'assets/Intro_4.png',
+    ];
+
+    const SHOW_MS = 1500;
+    const FADE_MS = 1000;
+
+    const bgA = document.getElementById('bg-a');
+    const bgB = document.getElementById('bg-b');
+    bgA.style.backgroundImage = `url('${BACKGROUNDS[0]}')`;
+    bgA.style.opacity = '1';
+    bgB.style.opacity = '0';
+
+    let index    = 0;
+    let showingA = true;
+
+    function nextBackground() {
+      index++;
+
+      if (index >= BACKGROUNDS.length) {
+        setTimeout(() => { window.location.href = 'intro_cutscene_2.html'; }, SHOW_MS);
+        return;
+      }
+
+      const incoming = showingA ? bgB : bgA;
+      const outgoing = showingA ? bgA : bgB;
+
+      incoming.style.backgroundImage = `url('${BACKGROUNDS[index]}')`;
+      incoming.style.opacity = '1';
+      outgoing.style.opacity = '0';
+      showingA = !showingA;
+
+      setTimeout(nextBackground, SHOW_MS + FADE_MS);
+    }
+
+    setTimeout(nextBackground, SHOW_MS + FADE_MS);
+  </script>
+
+  <script src="audio.js"></script>
+</body>
+</html>
