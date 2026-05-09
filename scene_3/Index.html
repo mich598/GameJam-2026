@@ -1,1 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lemonade Stand – Cashier</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="cashier.css">
+</head>
+<body>
 
+<div class="scene">
+
+    <!-- ===== AWNING ===== -->
+    <div class="awning">
+        <div class="awning-stripes"></div>
+        <div class="awning-fringe">
+            <!-- JS will populate triangles -->
+        </div>
+    </div>
+
+    <!-- ===== BACKGROUND SCENERY (decorative) ===== -->
+    <div class="scenery">
+        <div class="cloud cloud-1"></div>
+        <div class="cloud cloud-2"></div>
+        <div class="tree tree-left"></div>
+        <div class="tree tree-right"></div>
+    </div>
+
+    <!-- ===== MAIN COUNTER ===== -->
+    <div class="counter">
+
+        <!-- TOP ROW -->
+        <div class="top-row">
+
+            <!-- Speech Bubble -->
+            <div class="speech-bubble">
+                <div class="bubble-label">Customer Payment:</div>
+                <div class="bubble-amount" id="customerPayment">$2.50</div>
+            </div>
+
+            <!-- Top-right info panel -->
+            <div class="info-panel">
+                <div class="info-row">
+                    <span class="info-label">CHANGE GIVEN TOTAL:</span>
+                    <span class="change-given-amount" id="changeGivenDisplay">$0.00</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label small">Click coins in the box to remove them</span>
+                    <button class="submit-btn" id="submitBtn" onclick="submitChange()">SUBMIT ✓</button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- MAIN CASHIER UI: left = change box, right = coin panel -->
+        <div class="cashier-ui">
+
+            <!-- ======= LEFT PANEL: Change Box ======= -->
+            <div class="left-panel">
+
+                <!-- Required Change bar -->
+                <div class="required-change-bar">
+                    <span>REQUIRED CHANGE:</span>
+                    <span class="req-amount" id="requiredChange">$1.80</span>
+                </div>
+
+                <!-- Change Box -->
+                <div class="change-box-wrapper">
+                    <div class="change-box-header">
+                        <button class="nav-btn" onclick="clearLastCoin()" title="Undo last coin">◄ Undo</button>
+                        <span class="change-box-title">Change Box</span>
+                        <button class="nav-btn" onclick="clearAllCoins()" title="Clear all coins">Clear ►</button>
+                    </div>
+                    <div class="change-box" id="changeBox">
+                        <div class="empty-box-hint" id="emptyHint">
+                            Click coins on the right to add them →
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ======= RIGHT PANEL: Coins to Give ======= -->
+            <div class="right-panel">
+
+                <div class="coins-to-give-label">COINS TO GIVE:</div>
+
+                <div class="coins-grid">
+                    <!-- Gold coins -->
+                    <button class="coin-btn gold large"   onclick="addCoin(200)" title="$2.00 coin">$2</button>
+                    <button class="coin-btn gold medium"  onclick="addCoin(100)" title="$1.00 coin">$1</button>
+                    <button class="coin-btn silver medium" onclick="addCoin(50)"  title="50 cent coin">50¢</button>
+                    <button class="coin-btn silver medium" onclick="addCoin(20)"  title="20 cent coin">20¢</button>
+                    <button class="coin-btn silver small-c" onclick="addCoin(10)"  title="10 cent coin">10¢</button>
+                    <button class="coin-btn silver small-c" onclick="addCoin(5)"   title="5 cent coin">5¢</button>
+                </div>
+
+                <!-- Hint button -->
+                <div class="hint-row">
+                    <button class="hint-btn" onclick="toggleHint()" id="hintBtn">💡 Show Hint</button>
+                    <div class="hint-box" id="hintBox" style="display:none;"></div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Status message -->
+        <div class="status-message" id="statusMessage"></div>
+
+    </div><!-- end counter -->
+
+    <!-- Decorative lemon jars -->
+    <div class="lemon-jar left-jar">🍋</div>
+    <div class="lemon-jar right-jar">🍹</div>
+
+</div><!-- end scene -->
+
+
+<!-- ===== SUCCESS OVERLAY ===== -->
+
+
+<script src="Main.js"></script>
+</body>
+</html>
