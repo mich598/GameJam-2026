@@ -1,7 +1,7 @@
 # The Lemonade Stand
 Written by Michael Chen, Jai Lette, Kaleb McKweon
 
-# How to run
+## How to run
 Open index.html
 go live
 
