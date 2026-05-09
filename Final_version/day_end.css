@@ -1,0 +1,44 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  width: 100vw; height: 100vh;
+  overflow: hidden;
+  background: #000;
+  font-family: 'Fredoka One', cursive;
+}
+
+/* Cross-fade background layers */
+.bg-layer {
+  position: fixed;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: opacity 1s ease;
+}
+
+/* Day complete text card */
+#day-card {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  text-align: center;
+  background: rgba(255, 248, 220, 0.88);
+  border: 3px solid #d4a017;
+  border-radius: 20px;
+  padding: 24px 48px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  animation: popIn 0.5s ease;
+}
+
+#day-complete-label {
+  font-size: 2.8rem;
+  color: #5c3310;
+  text-shadow: 2px 2px 0 #ffe082;
+}
+
+@keyframes popIn {
+  from { transform: translate(-50%, -50%) scale(0.6); opacity: 0; }
+  to   { transform: translate(-50%, -50%) scale(1);   opacity: 1; }
+}

@@ -1,0 +1,46 @@
+
+- Overall goal is to Create Scene 1 screen with lemonade stand background.
+
+- after short time add customer image to the front of the stand.
+
+- Add speech bubble above/near customer. and fill with text. the messages should be pre written by me 
+
+
+- Display the customer order as text inside the speech bubble.
+
+- Add ticket image to the screen.
+
+- Create four drop zones on the ticket:
+  - Ice
+  - Lemon
+  - Sugar
+  - Water
+
+- Create draggable fraction buttons as an example:
+  - 1/4
+  - 1/2
+  - 3/4
+
+- Allow player to drag fraction buttons onto ticket drop zones.
+
+- When a fraction is dropped, write that fraction onto the correct ticket line.
+
+- Store the player’s ticket answers in code.
+
+- Add a “Confirm Ticket” button.
+
+- When button is clicked, compare player ticket answers to customer order.
+
+- If ticket is wrong:
+  - highlight wrong answers
+  - show “Try again”
+
+- If ticket is correct:
+  - show “Order written!”
+  - wait briefly
+  - move to Scene 2
+
+- Scene 2 placeholder:
+  - show message: “Now make the lemonade”
+
+  Customer appears → order shown → ticket appears → player drags fractions → confirm → correct = next scene

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lemonade Stand — Menu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Caveat:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="menu.css">
+</head>
+<body>
+
+  <img id="bg"    src="assets/background_image_scene_1.png" alt="">
+  <img id="bench" src="assets/Background_overlay.png" alt="">
+
+  <div id="menu-card">
+    <h1 id="menu-title">🍋 Lemonade Stand</h1>
+    <p  id="menu-sub">Serve, mix &amp; make change!</p>
+
+    <!-- Earnings progress — shown whenever earnings exist -->
+    <div id="menu-earn" hidden>
+      <p class="earn-heading">Current Earnings</p>
+      <div id="menu-earn-track"><div id="menu-earn-fill"></div></div>
+      <p id="menu-earn-label">$0.00 / $13.00</p>
+    </div>
+
+    <button class="menu-btn gold"  onclick="newGame()">▶ New Game</button>
+    <button class="menu-btn cream" onclick="continueGame()">⏩ Continue</button>
+  </div>
+
+  <script>
+    // Show earnings progress if any exists
+    const earned = parseFloat(localStorage.getItem('earnings') || '0');
+    if (earned > 0) {
+      document.getElementById('menu-earn').hidden = false;
+      document.getElementById('menu-earn-label').textContent = `$${earned.toFixed(2)} / $13.00`;
+      document.getElementById('menu-earn-fill').style.width = Math.min(earned / 13 * 100, 100) + '%';
+    }
+
+    function newGame() {
+      localStorage.setItem('newGame', 'true');
+      localStorage.removeItem('gamePaused');
+      localStorage.removeItem('pauseStartTime');
+      window.location.href = 'intro_cutscene_1.html';
+    }
+
+    function continueGame() {
+      localStorage.removeItem('gamePaused');
+      sessionStorage.setItem('gameStarted', 'true');
+      window.location.href = 'index.html';
+    }
+  </script>
+</body>
+</html>

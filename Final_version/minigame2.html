@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Police Inspection</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="minigame2.css">
+</head>
+<body>
+
+  <!-- Layer 1: background -->
+  <img id="mg2-bg" src="assets/background_image_scene_1.png" alt="">
+
+  <!-- Layer 2: police (behind bench) -->
+  <img id="mg2-police" src="assets/police.png" alt="Police">
+
+  <!-- Layer 3: bench overlay -->
+  <img id="mg2-bench" src="assets/Background_overlay.png" alt="">
+
+  <!-- Layer 4: UI -->
+
+  <!-- Intro: officer speech bubble + begin button -->
+  <div id="introScene">
+    <div id="police-bubble">
+      <p>🚔 <strong>Halt!</strong> I'm Officer Reynolds. We've had reports of <strong>illegal plastic straw usage</strong> at this establishment.</p>
+      <p>Prove your business is operating legitimately by solving these area problems — or face a fine!</p>
+    </div>
+    <button id="beginBtn">⚖️ Begin Inspection</button>
+  </div>
+
+  <!-- Progress bar -->
+  <div id="topBar" class="hidden">
+    <div id="progressFill"></div>
+    <div id="progressText">0 / 3</div>
+  </div>
+
+  <!-- Game scene (hidden until intro dismissed) -->
+  <div id="mathScene" class="hidden">
+
+    <div id="questionCard">
+      <div id="cardHeader">
+        <h2 id="shapeTitle"></h2>
+        <div id="metaRight">
+          <span id="timer">⏱ 30</span>
+          <span id="progress">Q 1 / 3</span>
+        </div>
+      </div>
+      <div id="formulaBox"></div>
+      <div id="shapeDiagram"></div>
+      <div id="valueBox">Calculate the area.</div>
+    </div>
+
+    <div id="answerRow">
+      <input id="answerInput" type="number" placeholder="Enter area…">
+      <button id="submitAnswer">Submit ✓</button>
+    </div>
+
+    <div id="feedback"></div>
+
+  </div>
+
+  <!-- End scene -->
+  <div id="endScene" class="hidden">
+    <div id="endCard">
+      <div id="finalResult"></div>
+      <button id="restartBtn">Back to Game →</button>
+    </div>
+  </div>
+
+  <script src="minigame2_layout.js"></script>
+  <script src="minigame2.js"></script>
+</body>
+</html>
