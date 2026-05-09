@@ -1,0 +1,426 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  width: 100vw; height: 100vh;
+  overflow: hidden;
+  background: #000;
+  font-family: 'Nunito', sans-serif;
+}
+
+[hidden] { display: none !important; }
+
+/* ── Fixed canvas — same as scene 1 ── */
+#scene3 {
+  position: absolute;
+  width: 1366px;
+  height: 630px;
+  left: 50%;
+  top: 50%;
+  margin-left: -683px;
+  margin-top: -315px;
+  transform-origin: center center;
+}
+
+/* ── Layer 1: background ── */
+#bg {
+  position: absolute;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+/* ── Layer 2: paying customer ── */
+#customer-pay {
+  position: absolute;
+  z-index: 2;
+}
+
+/* ── Layer 3: bench ── */
+#bench {
+  position: absolute;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: bottom;
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* ── Layer 4: lemonade on the counter ── */
+#lemonade-img {
+  position: absolute;
+  z-index: 7;
+}
+
+/* ── Layer 4: speech bubble ── */
+#speech-bubble {
+  position: absolute;
+  z-index: 8;
+  background: url('assets/speech_bubble.png') no-repeat center / 100% 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 26px 32px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+  overflow: hidden;
+}
+
+/* ── Pause button ── */
+#pause-btn {
+  position: fixed;
+  top: 20px; left: 50%; margin-left: -22px;
+  z-index: 20;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  font-size: 22px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.1s;
+}
+#pause-btn:hover { transform: scale(1.15); }
+
+/* ── Pause overlay ── */
+#pause-overlay {
+  position: fixed; inset: 0;
+  z-index: 50;
+  background: rgba(0,0,0,0.6);
+  display: flex; align-items: center; justify-content: center;
+}
+#pause-card {
+  background: rgba(255, 248, 220, 0.97);
+  border: 3px solid #d4a017;
+  border-radius: 22px;
+  padding: 36px 48px;
+  display: flex; flex-direction: column; align-items: center; gap: 14px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+}
+.pause-title { font-family: 'Fredoka One', cursive; font-size: 2rem; color: #5c3310; }
+.pause-action-btn {
+  width: 220px; padding: 13px 0;
+  border: none; border-radius: 12px;
+  font-family: 'Fredoka One', cursive; font-size: 1.2rem;
+  cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  transition: transform 0.1s;
+}
+.pause-action-btn:hover  { transform: translateY(-3px); }
+.pause-action-btn:active { transform: scale(0.95); }
+.pause-action-btn.green  { background: linear-gradient(135deg,#4caf50,#2e7d32); color:#fff; }
+.pause-action-btn.yellow { background: #f5c518; color: #5c3310; }
+
+/* ── Earnings progress bar ── */
+#earnings-panel {
+  position: fixed;
+  top: 20px; left: 70px;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255, 248, 220, 0.94);
+  border: 2px solid #d4a017;
+  border-radius: 14px;
+  padding: 10px 18px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+  min-width: 190px;
+  transition: background 0.4s, border-color 0.4s;
+}
+.earnings-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: 0.85rem;
+  color: #8b5e3c;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+#earnings-track {
+  width: 170px; height: 16px;
+  background: rgba(0,0,0,0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1.5px solid rgba(0,0,0,0.12);
+}
+#earnings-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #f5c518, #fb8c00);
+  border-radius: 8px;
+  transition: width 0.5s ease;
+}
+#earnings-label {
+  font-family: 'Fredoka One', cursive;
+  font-size: 0.95rem;
+  color: #3a2000;
+}
+
+/* ── Happiness timer (sat panel) ── */
+#sat-panel {
+  position: fixed;
+  top: 20px; right: 22px;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+#sat-face {
+  font-size: 2.4rem;
+  line-height: 1;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
+  transition: all 0.4s ease;
+}
+#sat-bar-track {
+  width: 26px; height: 160px;
+  background: rgba(0,0,0,0.45);
+  border: 2px solid rgba(255,255,255,0.25);
+  border-radius: 13px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.5), inset 0 1px 4px rgba(0,0,0,0.4);
+}
+#sat-bar-fill {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  border-radius: 13px;
+  transition: height 0.6s ease, background 0.6s ease;
+  background: linear-gradient(to top, #43a047, #8bc34a);
+}
+#sat-bar-glow {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 30%;
+  background: linear-gradient(to top, rgba(255,255,255,0.25), transparent);
+  border-radius: 0 0 13px 13px;
+  pointer-events: none;
+}
+#sat-label {
+  font-family: 'Fredoka One', cursive;
+  font-size: 0.7rem;
+  color: rgba(255,255,255,0.85);
+  letter-spacing: 2px;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+}
+#sat-time {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1rem;
+  color: #fff;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.7);
+}
+
+/* ── Layer 4: cashier panel ── */
+#cashier-panel {
+  position: absolute;
+  z-index: 8;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* ── Info bar ── */
+#info-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 248, 220, 0.96);
+  border: 3px solid #d4a017;
+  border-radius: 12px;
+  padding: 6px 12px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.35);
+}
+.info-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+.info-label {
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: #8b5e3c;
+  text-transform: uppercase;
+}
+.info-value {
+  font-family: 'Fredoka One', cursive;
+  font-size: 17px;
+  color: #3a2000;
+}
+.info-value.highlight { color: #c8000a; }
+
+.submit-btn {
+  padding: 7px 16px;
+  background: linear-gradient(135deg, #4caf50, #2e7d32);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Fredoka One', cursive;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+  white-space: nowrap;
+}
+.submit-btn:hover { background: linear-gradient(135deg, #43a047, #1b5e20); }
+
+/* ── Register image wrapper ── */
+#register-wrap {
+  position: relative;
+  width: 100%;
+}
+
+#register-img {
+  width: 100%;
+  display: block;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.45);
+}
+
+/* ── Change tray — overlaid on the left open area of the register ── */
+#changeBox {
+  position: absolute;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 5px;
+  padding: 8px;
+  overflow: hidden;
+  background: transparent;
+}
+
+.empty-box-hint {
+  width: 100%;
+  text-align: center;
+  color: #a08040;
+  font-size: 11px;
+  padding-top: 24px;
+  font-style: italic;
+  pointer-events: none;
+}
+
+/* Coins inside the tray */
+.box-coin {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-family: 'Fredoka One', cursive;
+  font-size: 11px;
+  cursor: pointer;
+  border: 2px solid rgba(0,0,0,0.25);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.4);
+  transition: transform 0.1s;
+  flex-shrink: 0;
+}
+.box-coin:hover { transform: scale(1.18) !important; }
+.box-coin.gold   { background: radial-gradient(circle at 35% 35%, #ffe066, #c8860a); color: #5c3310; }
+.box-coin.silver { background: radial-gradient(circle at 35% 35%, #e8e8e8, #8a8a8a); color: #222; }
+.box-coin.large  { width: 40px; height: 40px; font-size: 12px; }
+.box-coin.medium { width: 32px; height: 32px; font-size: 10px; }
+.box-coin.small-c { width: 26px; height: 26px; font-size: 9px; }
+
+/* ── Coin buttons — absolutely positioned over each register slot ──
+   left/top are % of the register-wrap, centred via translate(-50%,-50%)  ── */
+.coin-btn {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  font-family: 'Fredoka One', cursive;
+  font-weight: bold;
+  cursor: pointer;
+  border: 3px solid rgba(0,0,0,0.2);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.45);
+  transition: transform 0.12s, box-shadow 0.12s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.coin-btn.gold   { background: radial-gradient(circle at 35% 35%, #ffe066, #c8860a); color: #5c3310; }
+.coin-btn.silver { background: radial-gradient(circle at 35% 35%, #e0e0e0, #888); color: #222; }
+.coin-btn:hover  { transform: translate(-50%, -56%); box-shadow: 0 6px 14px rgba(0,0,0,0.5); }
+.coin-btn:active { transform: translate(-50%, -48%) scale(0.92); }
+
+/* Position each coin over its slot in the register image */
+/* Coin button positions come from layout_3.js */
+
+/* ── Bottom row: undo / hint / clear ── */
+#bottom-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-btn {
+  background: #f5c518;
+  border: none;
+  border-radius: 8px;
+  padding: 5px 14px;
+  font-family: 'Fredoka One', cursive;
+  font-size: 13px;
+  cursor: pointer;
+  color: #3a2000;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+}
+.nav-btn:hover { background: #e6a800; }
+
+.hint-btn {
+  flex: 1;
+  padding: 5px;
+  background: #fff9c4;
+  border: 2px solid #d4a017;
+  border-radius: 8px;
+  font-family: 'Fredoka One', cursive;
+  font-size: 12px;
+  cursor: pointer;
+  color: #5c3310;
+}
+.hint-btn:hover { background: #fff176; }
+
+.hint-box {
+  background: rgba(255, 253, 231, 0.96);
+  border: 2px solid #d4a017;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: #5c3310;
+  line-height: 1.5;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+}
+
+/* ── Status message ── */
+.status-message {
+  text-align: center;
+  font-family: 'Fredoka One', cursive;
+  font-size: 15px;
+  min-height: 22px;
+  border-radius: 8px;
+}
+.status-message.success { color: #2e7d32; }
+.status-message.error   { color: #c62828; }
+.status-message.info    { color: #7a5200; }
+
+#changeGivenDisplay.exact { color: #2e7d32; }
+#changeGivenDisplay.over  { color: #c62828; }
+
+/* ── Confetti ── */
+.confetti-piece {
+  position: fixed;
+  z-index: 999;
+  animation: confettiFall linear forwards;
+}
+@keyframes confettiFall {
+  to { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
+
+/* ── Animations ── */
+@keyframes coinRemove {
+  to { transform: scale(0) rotate(180deg); opacity: 0; }
+}
+.shake { animation: shakePan 0.35s ease; }
+@keyframes shakePan {
+  0%,100% { transform: translateX(0); }
+  20%     { transform: translateX(-8px); }
+  40%     { transform: translateX(8px); }
+  60%     { transform: translateX(-5px); }
+  80%     { transform: translateX(5px); }
+}
