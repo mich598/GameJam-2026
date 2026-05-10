@@ -1,5 +1,5 @@
 # The Lemonade Stand
-Written by Michael Chen, Jai Lette, Kaleb McKweon (League of Lemons)
+Written by the League of Lemons (Michael Chen, Jai Lette, Kaleb McKweon)
 
 ## Description
 This web-based lemonade stand game is inspired by classic games from our childhood like Papa's Freezeria found on web platforms like Coolmath Games. Drawing inspiration from The Duck Song, the gameplay follows a child's journey to save up enough money to buy a bike by running a friendly neighbourhood lemonade stand. The first person POV introduces an immersive experience and creates greater user engagement and relatability by allowing the player to see the world through the child's eyes. Styled with warm, colourful visuals inspired by Animal Crossing, the game recreates the nostalgic feeling of our childhood summers, having simple goals like buying a bike, and community interactions of selling lemonade while revitalising the once common idea of kids selling lemonade stands in suburban streets. The playful piano tune is designed to help players relax without overpowering the main functionality of the game. 
