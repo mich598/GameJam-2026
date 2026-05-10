@@ -9,7 +9,8 @@ Designed for older primary school students and aligned with Australian Year 5 cu
 The two minigames have been included as seperate extensions should the player choose to play them individually. Jai_minigame is the geometric reasoning game while Lemon Matching Minigame is the card based memory style matching game. 
 
 ## How to run
-1. Download the folder Final_Submission and extract to your local disk
-2. Ensure you have the Live Server Extension downloaded for VS code
-3. Open "index.html"
-4. Press "Go live" at the bottom right corner and enjoy
+1. Download and extract to your local disk
+2. Open the Final_Submission directory. This is where the main game is held.
+3. Ensure you have the Live Server Extension downloaded for VS code
+4. Open "index.html"
+5. Press "Go live" at the bottom right corner and enjoy
