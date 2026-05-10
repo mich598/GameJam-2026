@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>A Mysterious Visitor…</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="minigame_intro.css">
+</head>
+<body>
+
+  <!-- Background fills viewport natively -->
+  <img id="mi-bg" src="assets/background_image_scene_1.png" alt="">
+
+  <!-- Fixed canvas — everything inside is zoom-immune -->
+  <div id="mi-canvas">
+    <img id="mi-magician" src="assets/magician.png" alt="Magician">
+    <!-- Bench inside canvas so bubble + button (z-index 8) appear above it -->
+    <img id="mi-bench" src="assets/Background_overlay.png" alt="">
+    <div id="mi-bubble">
+      <p>I am Mysterio! I've hidden your ingredients in these cards. Find them all to break my spell! 🎩✨</p>
+    </div>
+    <button id="mi-next-btn" onclick="window.location.href='minigame.html'">Let's go! →</button>
+  </div>
+
+  <script src="audio.js"></script>
+  <script>
+    function scaleCanvas() {
+      const s = Math.min(window.innerWidth / 1366, window.innerHeight / 630);
+      document.getElementById('mi-canvas').style.transform = `scale(${s})`;
+    }
+    window.addEventListener('resize', scaleCanvas);
+    window.visualViewport?.addEventListener('resize', scaleCanvas);
+    scaleCanvas();
+  </script>
+</body>
+</html>

@@ -56,6 +56,7 @@ function scaleGame() {
   if (pause) { pause.style.transform = `scale(${scale})`; pause.style.transformOrigin = 'top center'; }
 }
 window.addEventListener('resize', scaleGame);
+window.visualViewport?.addEventListener('resize', scaleGame);
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', () => {

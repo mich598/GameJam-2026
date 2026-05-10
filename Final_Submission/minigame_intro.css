@@ -1,0 +1,96 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { width: 100vw; height: 100vh; overflow: hidden; background: #000; font-family: 'Fredoka One', cursive; }
+
+/* ── Native backgrounds — always fill viewport ── */
+/* Background — native, fills viewport */
+#mi-bg {
+  position: fixed; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  animation: fadeIn 0.4s ease;
+}
+
+/* Bench — inside canvas so z-index works correctly against bubble/button */
+#mi-bench {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: bottom;
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* ── Fixed canvas — same 1366×630 approach as all other scenes ── */
+#mi-canvas {
+  position: absolute;
+  width: 1366px; height: 630px;
+  left: 50%; top: 50%;
+  margin-left: -683px; margin-top: -315px;
+  transform-origin: center center;
+  z-index: 2;
+}
+
+/* ── Magician — positioned in canvas space ── */
+#mi-magician {
+  position: absolute;
+  bottom: 10%;
+  right: 42%;
+  height: 78%;
+  width: auto;
+  z-index: 3;
+  animation: magicSlide 0.45s cubic-bezier(.2, 1.4, .5, 1) both;
+}
+
+/* ── Speech bubble ── */
+#mi-bubble {
+  position: absolute;
+  bottom: 60%;
+  right: 28%;
+  width: 350px;
+  min-height: 185px;
+  z-index: 8;
+  background: url('assets/speech_bubble.png') no-repeat center / 100% 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px 36px 40px 36px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  color: #2d1500;
+  overflow: hidden;
+  line-height: 1.5;
+  animation: bubblePop 0.35s cubic-bezier(.2, 1.4, .5, 1) 0.3s both;
+}
+
+/* ── Next button ── */
+#mi-next-btn {
+  position: absolute;
+  bottom: 10%;
+  right: 30%;
+  z-index: 8;
+  padding: 12px 36px;
+  background: linear-gradient(135deg, #fdd835, #fb8c00);
+  border: none;
+  border-radius: 14px;
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.1rem;
+  color: #5c3310;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.35);
+  animation: bubblePop 0.35s cubic-bezier(.2, 1.4, .5, 1) 0.6s both;
+  transition: transform 0.1s;
+}
+#mi-next-btn:hover  { transform: translateY(-3px); }
+#mi-next-btn:active { transform: scale(0.95); }
+
+@keyframes fadeIn    { from { opacity: 0; } to { opacity: 1; } }
+@keyframes magicSlide {
+  from { transform: translateX(160px) scale(0.8); opacity: 0; filter: brightness(2); }
+  to   { transform: translateX(0)     scale(1);   opacity: 1; filter: brightness(1); }
+}
+@keyframes bubblePop {
+  from { transform: scale(0.6); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}

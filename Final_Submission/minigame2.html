@@ -68,6 +68,16 @@
     </div>
   </div>
 
+  <script>
+    function scaleMg2() {
+      const s = Math.min((window.innerWidth - 60) / 600, (window.innerHeight - 60) / 620, 1.4);
+      const c = document.querySelector('.game-container');
+      if (c) { c.style.transform = `translate(-50%, -50%) scale(${s})`; c.style.transformOrigin = 'center'; }
+    }
+    window.addEventListener('resize', scaleMg2);
+    window.visualViewport?.addEventListener('resize', scaleMg2);
+    document.addEventListener('DOMContentLoaded', scaleMg2);
+  </script>
   <script src="minigame2_layout.js"></script>
   <script src="minigame2.js"></script>
   <script src="audio.js"></script>

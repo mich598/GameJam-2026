@@ -13,6 +13,7 @@ function scaleCanvas() {
   if (canvas) canvas.style.transform = `scale(${scale})`;
 }
 window.addEventListener('resize', scaleCanvas);
+window.visualViewport?.addEventListener('resize', scaleCanvas);
 
 // ── Main entry ──────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {

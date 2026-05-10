@@ -23,7 +23,8 @@
   <!-- Skip hint -->
   <span id="skip-hint" onclick="goToMenu()">SKIP ›</span>
 
-  <!-- Story card -->
+  <!-- Story card inside zoom-immune canvas -->
+  <div id="intro-canvas">
   <div id="intro-card">
     <h1 id="intro-title">🍋 A Stand, A Dream & A Bike</h1>
     <p id="intro-story">
@@ -34,7 +35,19 @@
     </p>
     <button id="intro-btn" onclick="goToMenu()">Let's Go! 🍋</button>
   </div>
+  </div><!-- intro-canvas -->
 
+  <script>
+    // Lock intro card against zoom
+    function scaleCanvas() {
+      const s = Math.min(window.innerWidth / 1366, window.innerHeight / 630);
+      const c = document.getElementById('intro-canvas');
+      if (c) c.style.transform = `scale(${s})`;
+    }
+    window.addEventListener('resize', scaleCanvas);
+    window.visualViewport?.addEventListener('resize', scaleCanvas);
+    document.addEventListener('DOMContentLoaded', scaleCanvas);
+  </script>
   <script>
     function goToMenu() {
       // Mark that we've shown the intro so it never replays

@@ -1,37 +1,70 @@
-// audio.js — looping background music across all pages
-// Saves playback position so the track resumes after page transitions.
+// audio.js — seamless looping background music across all pages
+//
+// Saves both the playback position AND a wall-clock timestamp on every page exit.
+// The next page adds the elapsed transition time to the resume position, so the
+// audio restarts at exactly the right spot — virtually eliminating the gap.
 
 (function () {
-  const SRC    = 'universfield-bright-piano-fun-270899.mp3';
-  const VOLUME = 0.35;
+  // shell.html owns the audio — don't create a second player inside the iframe
+  if (window !== window.top) return;
 
-  const bgm = new Audio(SRC);
+  const SRC    = 'universfield-bright-piano-fun-270899.mp3';
+  const VOLUME = 0.6;
+
+  const bgm  = new Audio(SRC);
   bgm.loop   = true;
   bgm.volume = VOLUME;
 
-  // Resume from saved position
-  const saved = parseFloat(localStorage.getItem('bgmTime') || '0');
-  if (saved > 0) bgm.currentTime = saved;
+  // ── Calculate where to resume ──────────────────────────────────────────────
+  const savedPos  = parseFloat(localStorage.getItem('bgmPos')    || '0');
+  const savedAt   = parseInt  (localStorage.getItem('bgmSavedAt') || '0');
 
-  // Persist position every second
-  setInterval(() => {
-    if (!bgm.paused) localStorage.setItem('bgmTime', bgm.currentTime.toFixed(2));
-  }, 1000);
+  // Time elapsed while the browser was navigating to this page
+  const transitMs = savedAt > 0 ? Date.now() - savedAt : 0;
+  let   resumeAt  = savedPos + transitMs / 1000;
 
-  // Persist on unload so the next page can pick up immediately
-  window.addEventListener('beforeunload', () => {
-    localStorage.setItem('bgmTime', bgm.currentTime.toFixed(2));
+  // Clamp to track duration once metadata is available (handles loop wrap-around)
+  function applyResumeTime() {
+    if (bgm.duration && bgm.duration > 0) {
+      bgm.currentTime = resumeAt % bgm.duration;
+    } else if (resumeAt > 0) {
+      bgm.currentTime = resumeAt; // best guess before duration is known
+    }
+  }
+
+  if (bgm.readyState >= 1) {
+    applyResumeTime();
+  } else {
+    bgm.addEventListener('loadedmetadata', applyResumeTime, { once: true });
+  }
+
+  // ── Save position on every page exit ───────────────────────────────────────
+  function savePosition() {
+    localStorage.setItem('bgmPos',     bgm.currentTime.toFixed(3));
+    localStorage.setItem('bgmSavedAt', Date.now().toString());
+  }
+
+  window.addEventListener('pagehide',    savePosition);
+  window.addEventListener('beforeunload', savePosition);
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') savePosition();
   });
 
-  function startMusic() {
+  // Only resume if the user has explicitly turned music on before
+  if (localStorage.getItem('musicMuted') === 'false') {
     bgm.play().catch(() => {});
   }
 
-  // Attempt autoplay; if blocked, start on the first user interaction
-  document.addEventListener('DOMContentLoaded', () => {
-    bgm.play().catch(() => {
-      document.addEventListener('pointerdown', startMusic, { once: true });
-      document.addEventListener('keydown',     startMusic, { once: true });
-    });
-  });
+  // Exposed for pages run outside shell
+  window.toggleBGM = function () {
+    if (bgm.paused) {
+      bgm.play().catch(() => {});
+      localStorage.setItem('musicMuted', 'false');
+      return false;
+    } else {
+      bgm.pause();
+      localStorage.setItem('musicMuted', 'true');
+      return true;
+    }
+  };
 })();

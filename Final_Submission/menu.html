@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Redirect to shell.html when opened directly so audio is seamless -->
+  <script>if (window === window.top) window.location.replace('shell.html');</script>
   <meta charset="UTF-8">
   <title>Lemonade Stand — Menu</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,6 +14,7 @@
   <img id="bg"    src="assets/background_image_scene_1.png" alt="">
   <img id="bench" src="assets/Background_overlay.png" alt="">
 
+  <div id="menu-canvas">
   <div id="menu-card">
     <h1 id="menu-title">🍋 Lemonade Stand</h1>
     <p  id="menu-sub">Serve, mix &amp; make change!</p>
@@ -25,8 +28,21 @@
 
     <button class="menu-btn gold"  onclick="newGame()">▶ New Game</button>
     <button class="menu-btn cream" onclick="continueGame()">⏩ Continue</button>
+    <button id="music-btn" class="music-toggle" onclick="toggleMusic()">🎵 Music: On</button>
   </div>
+  </div><!-- menu-canvas -->
 
+  <script>
+    // Lock menu card against zoom
+    function scaleCanvas() {
+      const s = Math.min(window.innerWidth / 1366, window.innerHeight / 630);
+      const c = document.getElementById('menu-canvas');
+      if (c) c.style.transform = `scale(${s})`;
+    }
+    window.addEventListener('resize', scaleCanvas);
+    window.visualViewport?.addEventListener('resize', scaleCanvas);
+    document.addEventListener('DOMContentLoaded', scaleCanvas);
+  </script>
   <script>
     // Show earnings progress if any exists
     const earned = parseFloat(localStorage.getItem('earnings') || '0');
@@ -35,6 +51,19 @@
       document.getElementById('menu-earn-label').textContent = `$${earned.toFixed(2)} / $13.00`;
       document.getElementById('menu-earn-fill').style.width = Math.min(earned / 13 * 100, 100) + '%';
     }
+
+    function toggleMusic() {
+      const fn = window.parent?.toggleBGM || window.toggleBGM;
+      if (!fn) return;
+      const nowMuted = fn(); // true = muted, false = playing
+      document.getElementById('music-btn').textContent = nowMuted ? '🔇 Music: Off' : '🎵 Music: On';
+    }
+
+    // Music is OFF by default — only 'false' means the user has turned it on
+    document.addEventListener('DOMContentLoaded', () => {
+      const on = localStorage.getItem('musicMuted') === 'false';
+      document.getElementById('music-btn').textContent = on ? '🎵 Music: On' : '🔇 Music: Off';
+    });
 
     function newGame() {
       localStorage.setItem('newGame', 'true');

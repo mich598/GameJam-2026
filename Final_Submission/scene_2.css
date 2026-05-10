@@ -73,7 +73,7 @@ body {
 /* ─── SCORE PANEL ────────────────────────────── */
 #score-panel {
   position: fixed;
-  top: 20px; left: 20px;
+  top: 3.17%; left: 1.46%;
   z-index: 20;
   background: rgba(20,8,0,0.55);
   backdrop-filter: blur(10px);
@@ -104,7 +104,7 @@ body {
 /* ─── PAUSE BUTTON ──────────────────────────── */
 #pause-btn {
   position: fixed;
-  top: 20px; left: 50%; margin-left: -22px;
+  top: 3.17%; left: 50%; margin-left: -1.61%;
   z-index: 20;
   width: 44px; height: 44px;
   border-radius: 50%;
@@ -148,7 +148,7 @@ body {
 /* ─── EARNINGS PROGRESS BAR ─────────────────── */
 #earnings-panel {
   position: fixed;
-  top: 20px; left: 70px;
+  top: 3.17%; left: 5.13%;
   z-index: 20;
   display: flex;
   flex-direction: column;
@@ -192,7 +192,7 @@ body {
 /* ─── SATISFACTION BAR ───────────────────────── */
 #sat-panel {
   position: fixed;
-  top: 20px; right: 22px;
+  top: 3.17%; right: 1.61%;
   z-index: 20;
   display: flex;
   flex-direction: column;

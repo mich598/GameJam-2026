@@ -9,15 +9,7 @@
 </head>
 <body>
 
-  <!-- Minigame alert triangle -->
-  <div id="minigame-alert" hidden onclick="clickMinigameAlert()">
-    <img id="minigame-alert-img" src="" alt="minigame">
-  </div>
-
-  <!-- Pause button -->
-  <button id="pause-btn" onclick="pauseGame()">⏸</button>
-
-  <!-- Pause overlay -->
+  <!-- Pause overlay (stays outside canvas — covers full screen) -->
   <div id="pause-overlay" hidden>
     <div id="pause-card">
       <h2 class="pause-title">⏸ Paused</h2>
@@ -76,6 +68,12 @@
 
     <button id="confirm-btn" hidden>Confirm Ticket</button>
     <div id="feedback"></div>
+
+    <!-- Pause button and minigame alert live INSIDE the canvas — zoom-immune -->
+    <button id="pause-btn" onclick="pauseGame()">⏸</button>
+    <div id="minigame-alert" hidden onclick="clickMinigameAlert()">
+      <img id="minigame-alert-img" src="" alt="minigame">
+    </div>
 
   </div>
 

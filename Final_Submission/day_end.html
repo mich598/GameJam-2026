@@ -17,6 +17,17 @@
   </div>
 
   <script>
+    // Lock the day card against zoom
+    function scaleDayCard() {
+      const s = Math.min(window.innerWidth / 1366, window.innerHeight / 630, 1.5);
+      const card = document.getElementById('day-card');
+      if (card) card.style.transform = `translate(-50%, -50%) scale(${s})`;
+    }
+    window.addEventListener('resize', scaleDayCard);
+    window.visualViewport?.addEventListener('resize', scaleDayCard);
+    document.addEventListener('DOMContentLoaded', scaleDayCard);
+  </script>
+  <script>
     // Background sequence: day → dusk → night → morning
     const BACKGROUNDS = [
       'assets/background_image_scene_1.png',

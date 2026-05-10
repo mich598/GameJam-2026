@@ -30,9 +30,19 @@ body {
   );
 }
 
+/* ── Zoom-immune canvas ── */
+#intro-canvas {
+  position: absolute;
+  width: 1366px; height: 630px;
+  left: 50%; top: 50%;
+  margin-left: -683px; margin-top: -315px;
+  transform-origin: center center;
+  z-index: 10;
+}
+
 /* ── Story text card ── */
 #intro-card {
-  position: fixed;
+  position: absolute;
   bottom: 12%;
   left: 50%;
   transform: translateX(-50%);

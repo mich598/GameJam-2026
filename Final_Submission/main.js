@@ -47,7 +47,8 @@ function clickMinigameAlert() {
   const url = tri?.dataset.url || 'minigame.html';
   if (tri) tri.hidden = true;
   localStorage.setItem('minigamePauseStart', Date.now().toString());
-  window.location.href = url;
+  // Minigame 1 gets a magician intro first; minigame 2 goes straight in
+  window.location.href = url === 'minigame.html' ? 'minigame_intro.html' : url;
 }
 
 // Scale the game canvas to fit the browser window
@@ -57,14 +58,12 @@ function scaleGame() {
   document.getElementById('scene2').style.transform = `scale(${scale})`;
   const sat   = document.getElementById('sat-panel');
   const earn  = document.getElementById('earnings-panel');
-  const pause = document.getElementById('pause-btn');
-  const tri   = document.getElementById('minigame-alert');
-  if (sat)   { sat.style.transform   = `scale(${scale})`;  sat.style.transformOrigin   = 'top right';  }
-  if (earn)  { earn.style.transform  = `scale(${scale})`; earn.style.transformOrigin  = 'top left';   }
-  if (pause) { pause.style.transform = `scale(${scale})`; pause.style.transformOrigin = 'top center'; }
-  if (tri)   { tri.style.transform   = `scale(${scale})`; tri.style.transformOrigin   = 'bottom left'; }
+  if (sat)  { sat.style.transform  = `scale(${scale})`;  sat.style.transformOrigin  = 'top right'; }
+  if (earn) { earn.style.transform = `scale(${scale})`; earn.style.transformOrigin = 'top left';  }
+  // pause-btn and minigame-alert are inside #scene1 canvas — no separate scaling needed
 }
 window.addEventListener('resize', scaleGame);
+window.visualViewport?.addEventListener('resize', scaleGame);
 scaleGame();
 
 // Apply layout.js config to an element by id

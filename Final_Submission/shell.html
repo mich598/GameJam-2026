@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lemonade Stand</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { width: 100vw; height: 100vh; overflow: hidden; background: #000; }
+    iframe { width: 100%; height: 100%; border: none; display: block; }
+  </style>
+</head>
+<body>
+
+  <!-- Audio lives here and NEVER reloads — seamless across all scenes -->
+  <audio id="bgm" src="universfield-bright-piano-fun-270899.mp3" loop></audio>
+
+  <!-- The entire game runs inside this iframe -->
+  <iframe src="menu.html"></iframe>
+
+  <script>
+    const bgm = document.getElementById('bgm');
+    bgm.volume = 0.6;
+
+    // Only resume if the user previously turned music on ('false' = on)
+    if (localStorage.getItem('musicMuted') === 'false') {
+      bgm.play().catch(() => {});
+    }
+
+    // Exposed so iframe pages can toggle music
+    window.toggleBGM = function () {
+      if (bgm.paused) {
+        bgm.play().catch(() => {});
+        localStorage.setItem('musicMuted', 'false');
+        return false; // now playing
+      } else {
+        bgm.pause();
+        localStorage.setItem('musicMuted', 'true');
+        return true;  // now muted
+      }
+    };
+  </script>
+
+</body>
+</html>

@@ -22,9 +22,19 @@ body {
   pointer-events: none;
 }
 
+/* ── Fixed canvas — zoom-immune ── */
+#menu-canvas {
+  position: absolute;
+  width: 1366px; height: 630px;
+  left: 50%; top: 50%;
+  margin-left: -683px; margin-top: -315px;
+  transform-origin: center center;
+  z-index: 10;
+}
+
 /* ── Centre card ── */
 #menu-card {
-  position: fixed;
+  position: absolute;
   top: 50%; left: 50%;
   transform: translate(-50%, -52%);
   z-index: 10;
@@ -116,6 +126,20 @@ body {
 .menu-btn.small { padding: 8px 0; font-size: 1rem; }
 .menu-btn:hover  { transform: translateY(-3px); box-shadow: 0 7px 18px rgba(0,0,0,0.3); }
 .menu-btn:active { transform: scale(0.96); }
+
+/* ── Music toggle ── */
+.music-toggle {
+  background: none;
+  border: none;
+  font-family: 'Fredoka One', cursive;
+  font-size: 0.8rem;
+  color: #a08040;
+  cursor: pointer;
+  padding: 2px 0;
+  opacity: 0.75;
+  transition: opacity 0.15s;
+}
+.music-toggle:hover { opacity: 1; }
 
 /* ── How to play ── */
 #how-to {
